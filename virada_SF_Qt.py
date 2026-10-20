@@ -1,11 +1,10 @@
-
 import PureCloudPlatformClientV2
 import time
 import json
 from PureCloudPlatformClientV2.api_client import ApiException
 from PyQt6.QtGui import QColor, QPalette
 from PyQt6.QtWidgets import QApplication, QCheckBox, QComboBox, QGridLayout, QLabel, QLineEdit, QMainWindow, QPushButton, QTextEdit, QWidget
-from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtCore import Qt
 
 # ======================================== Funções ========================================
 def imprime(janela, texto):
@@ -425,21 +424,19 @@ class JanelaPrincipal(QMainWindow):
                         imprime(saida, f"Usuário {user_name} sem estação WebRTC.")
 
             if checkboxAutoanswer:
-                user_update = PureCloudPlatformClientV2.UpdateUser()
-                if autoAnswer == "Habilitado":
-                    user_update.acd_auto_answer = True
-                else:
-                    user_update.ace_auto_answer = False
-
-                if autoAnswer:
-                    imprime(saida, "Habilitando AutoAnswer.")
-                else:
-                    imprime(saida, "Desabilitando Autoanswer.")
-                for user_name, user in infos_agentes.items(): # Desabilitar Resposta Automática
-                    usersApi.patch_user(user["id"], user_update)
+                for user_name, user in infos_agentes.items():
+                    user_update = PureCloudPlatformClientV2.UpdateUser()
+                    if autoAnswer == "Habilitado":
+                        user_update.acd_auto_answer = True
+                        imprime(saida, f"Habilitando AutoAnswer de {user_name}")
+                        usersApi.patch_user(user["id"], user_update)
+                    else:
+                        user_update.ace_auto_answer = False
+                        imprime(saida, f"Desabilitando Autoanswer de {user_name}")
+                        usersApi.patch_user(user["id"], user_update)
         else:
             imprime(saida, client)
-
+        imprime(saida, "Concluído!")
     def instancia_Apis(self, api_client, saida):
         usersApi = Users_Api(api_client) # Users API
         imprime(saida, "API de Usuário: OK.")
