@@ -1,72 +1,109 @@
+# Ajuste de Usuários Salesforce - Genesys Cloud (`virada_SF_Qt.py`)
 
-# Ajuste de Usuários Salesforce (Genesys Cloud Automation)
+Aplicação desktop desenvolvida em **Python** utilizando **PyQt6** e o SDK oficial **PureCloud Platform Client V2** (`PureCloudPlatformClientV2`). O objetivo principal é automatizar operações em lote no **Genesys Cloud** para operadores e agentes (vínculo ou remoção de filas e grupos, alteração de site/estação WebRTC e configuração de resposta automática - *Auto Answer*).
 
-Aplicação desktop desenvolvida em **Python** utilizando **PyQt6** e o **PureCloud Platform Client V2** (`PureCloudPlatformClientV2`). O objetivo principal é automatizar operações em lote no Genesys Cloud para operadores/agentes (vínculo ou remoção de filas e grupos, alteração de site/estação WebRTC e configuração de resposta automática - _Auto Answer_).
+---
 
-## Tecnologias e Dependências
+## 🚀 Como Usar (Sem precisar instalar o Python)
 
-O projeto foi construído utilizando as seguintes bibliotecas e ferramentas:
+Se você deseja apenas executar a aplicação de forma rápida no Windows, pode utilizar o executável pré-compilado:
 
-- **Python** (versão 3.8 ou superior recomendada)
-- **PyQt6** (para a interface gráfica de usuário)
-- **PureCloudPlatformClientV2** (SDK oficial do Genesys Cloud para Python)
+1. Acesse a aba **[Releases](../../releases)** deste repositório.
+2. Baixe a versão mais recente do arquivo **`virada_SF_Qt.exe`**.
+3. Dê um duplo clique para abrir e preencha as credenciais e parâmetros diretamente na interface gráfica.
 
-## Pré-requisitos de Instalação
+---
 
-### 1. Instalação do Python
+## 🛠️ Executando o Código-Fonte (Desenvolvedores)
 
-Antes de executar a aplicação, certifique-se de que o Python está instalado em sua máquina:
+Caso queira executar o script diretamente ou contribuir com o projeto, siga os passos abaixo:
 
-1. Acesse o [site oficial do Python](https://www.python.org/downloads/ "null").
-2. Baixe e execute o instalador mais recente para o seu sistema operacional (compatível com Windows, macOS ou Linux).
-3. **Importante:** Durante a instalação, certifique-se de marcar a opção **"Add Python to PATH"** (Adicionar o Python ao PATH) para garantir que os comandos funcionem corretamente no terminal.
-4. Para confirmar a instalação, abra o terminal (Prompt de Comando ou PowerShell) e digite:
- 
+### Pré-requisitos
+* **Python** (versão 3.8 ou superior recomendada)
+* **Git** instalado na máquina
+
+### 1. Clonar o Repositório
+```bash
+git clone [https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git](https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git)
+cd SEU_REPOSITORIO
 ```
-python --version
-```
-    
+2. Instalar as Dependências
+Instale o PyQt6 e o SDK do Genesys Cloud executando o comando no terminal:
 
-### 2. Instalação das Bibliotecas
-
-Com o Python instalado, abra o terminal e execute o seguinte comando para instalar as dependências necessárias do projeto:
-```
-pip install PyQt6 purecloud-platform-client-v2
-```
+Bash
+python -m pip install PyQt6 purecloud-platform-client-v2
+3. Executar a Aplicação
+Bash
+python virada_SF_Qt.py
 
 ## Configuração da Credencial (OAuth Client)
+Para que a aplicação consiga se comunicar com a API do Genesys Cloud, é necessário criar uma credencial do tipo Client Credentials na sua organização:
 
-Para que a aplicação consiga se comunicar com a API do Genesys Cloud, é necessário criar uma credencial do tipo **Client Credentials** na sua organização Genesys Cloud:
+Acesse o Admin do Genesys Cloud.
 
-1. Acesse o **Admin** do Genesys Cloud.
-2. Navegue até **Integrations** > **OAuth**.
-3. Clique em **Add Client**.
-4. Defina um nome para a integração e selecione a opção **Client Credentials**.
-5. Na aba **Roles**, atribua as permissões necessárias para gerenciar usuários, filas, grupos e estações de telefonia (ex: `directory:user:any`, `routing:queue:any`, `group:any`, `telephony:phones:any`, etc.).
-6. Copie o **Client ID** e o **Client Secret** gerados para utilizá-los na interface da aplicação.
+Navegue até Integrations > OAuth.
 
-## Como Executar a Aplicação
+Clique em Add Client e selecione a opção Client Credentials.
 
-1. Baixe ou clone o repositório contendo o código-fonte.
-2. Abra o terminal na pasta onde o arquivo **`virada_SF_Qt.py`** está localizado.
-3. Execute o comando:
-```
-python virada_SF_Qt.py
-```
+Na aba Roles, atribua as permissões necessárias para gerenciar usuários, filas, grupos e estações de telefonia (ex: directory:user:any, routing:queue:any, group:any, telephony:phones:any).
+
+Copie o Client ID e o Client Secret para utilizá-los na interface da aplicação.
 
 ## Guia de Uso da Interface
+Credenciais OAuth: Preencha os campos de Client ID e Client Secret.
 
-1. **Credenciais OAuth:** Preencha os campos de **Client ID** e **Client Secret** com as chaves geradas no Genesys Cloud.
-2. **Usuários:** Insira os nomes dos agentes na caixa de texto maior, separados por vírgula (ex: `JOAO SILVA, MARIA SOUZA`).
-3. **Filas (Opcional):** Marque a caixa **"Alterar Filas"** e informe os nomes exatos das filas nos campos correspondentes para adicionar ou remover os usuários em lote.
-4. **Grupos (Opcional):** Marque a caixa **"Alterar Grupos"** e informe os nomes dos grupos para adicionar ou remover os operadores.
-5. **Estação WebRTC / Site (Opcional):** Marque a caixa correspondente para atualizar a estação/site de telefonia associada aos usuários.
-6. **Auto Answer (Opcional):** Marque para habilitar ou desabilitar o atendimento automático de chamadas ACD nos perfis dos usuários selecionados.
-7. **Execução:** Clique no botão **Executar** para iniciar o processamento. O painel inferior exibirá em tempo real o progresso e eventuais retornos/erros da API.
-8. **Sair:** Clique em **Sair** para encerrar a aplicação com segurança.
+Usuários: Insira os nomes dos agentes na caixa de texto maior, separados por vírgula (ex: JOAO SILVA, MARIA SOUZA).
 
-## Estrutura do Código
+Filas (Opcional): Marque "Alterar Filas" e informe os nomes exatos para adicionar ou remover os usuários em lote.
 
-- **Funções de Apoio:** Gerenciamento de tratamento de exceções da API (`ApiException`) com conversão para JSON estruturado e atraso controlado (`imprime`) para atualização fluida da interface via `QApplication.processEvents()`.
-- **Inicialização de APIs:** Conexão direcionada para a região padrão configurada (`sa_east_1`) e instanciação modular das APIs (`UsersApi`, `GroupsApi`, `RoutingApi`, `TelephonyProvidersEdgeApi`).
-- **Classe `JanelaPrincipal`:** Constrói a interface em grade (`QGridLayout`) utilizando componentes do PyQt6 e gerencia de forma assíncrona/sequencial as chamadas de automação em lote.
+Grupos (Opcional): Marque "Alterar Grupos" e informe os nomes dos grupos correspondentes.
+
+Estação WebRTC / Site (Opcional): Atualize a estação ou site de telefonia associada aos operadores.
+
+Auto Answer (Opcional): Habilite ou desabilite o atendimento automático de chamadas ACD.
+
+Execução: Clique em Executar. O painel inferior exibirá o progresso em tempo real e eventuais retornos/erros formatados.
+
+## Como Gerar o Executável (.exe) Localmente
+Se precisar recompilar a aplicação utilizando o PyInstaller:
+
+Instale o PyInstaller:
+
+Bash
+python -m pip install pyinstaller
+Gere o executável empacotado em arquivo único sem a janela de console:
+
+Bash
+python -m pyinstaller --noconsole --onefile virada_SF_Qt.py
+O executável pronto estará localizado dentro da pasta dist/virada_SF_Qt.exe.
+
+## Tecnologias Utilizadas
+Python
+
+PyQt6 (Interface Gráfica)
+
+PureCloudPlatformClientV2 (API SDK Oficial do Genesys Cloud)
+
+PyInstaller (Empacotamento)
+
+
+---
+
+### Próximos passos para subir ao GitHub:
+1. Crie o arquivo `.gitignore` na raiz do seu projeto com o seguinte conteúdo para ignorar pastas temporárias de compilação:
+   ```text
+   build/
+   dist/
+   *.spec
+   __pycache__/
+   .vscode/
+   .idea/
+No terminal do VS Code, envie o projeto:
+
+Bash
+git init
+git add .
+git commit -m "Commit inicial: Aplicação Genesys Cloud Salesforce com PyQt6 e README"
+git branch -M main
+git remote add origin SUA_URL_DO_GITHUB
+git push -u origin main
